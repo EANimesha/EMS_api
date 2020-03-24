@@ -45,3 +45,18 @@ exports.searchEmployee=(req,res)=>{
 
 }
 
+exports.getDepartmentEmployees=(req,res)=>{
+    db('employees')
+    .join('departments','employees.dep_id','=','departments.id')
+    .select('*')
+    .where({
+        dep_id:req.params.id
+    })
+    .then(function(employees){
+        res.send(employees);
+    })
+    .catch(err=>{
+        console.error(err); 
+        res.json({error:err.code});
+    })
+}
